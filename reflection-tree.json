@@ -1,0 +1,201 @@
+{
+  "nodes": [
+    {
+      "id": "START",
+      "type": "start",
+      "text": "Good evening. Let's take 3 minutes to reflect on your day."
+    },
+
+    {
+      "id": "A1_OPEN",
+      "parentId": "START",
+      "type": "question",
+      "text": "How would you describe today?",
+      "options": ["Productive", "Mixed", "Tough", "Frustrating"]
+    },
+
+    {
+      "id": "A1_D1",
+      "parentId": "A1_OPEN",
+      "type": "decision",
+      "rules": [
+        { "if": ["Productive", "Mixed"], "goto": "A1_Q_HIGH" },
+        { "if": ["Tough", "Frustrating"], "goto": "A1_Q_LOW" }
+      ]
+    },
+
+    {
+      "id": "A1_Q_HIGH",
+      "type": "question",
+      "text": "What contributed most to things going well?",
+      "options": [
+        "My preparation",
+        "Team support",
+        "Luck",
+        "I adapted quickly"
+      ],
+      "signal": ["axis1:internal", "axis1:external"]
+    },
+
+    {
+      "id": "A1_Q_LOW",
+      "type": "question",
+      "text": "When things didn’t go well, what was your instinct?",
+      "options": [
+        "Focus on what I could control",
+        "Wait for others",
+        "Push through alone",
+        "Feel stuck"
+      ],
+      "signal": ["axis1:internal", "axis1:external"]
+    },
+
+    {
+      "id": "A1_REF_INT",
+      "parentId": "A1_Q_HIGH",
+      "type": "reflection",
+      "text": "You noticed your role in outcomes today. That’s agency — even small actions shape results.",
+      "signal": "axis1:internal"
+    },
+
+    {
+      "id": "A1_REF_EXT",
+      "parentId": "A1_Q_LOW",
+      "type": "reflection",
+      "text": "It’s natural to notice external factors. But somewhere today, you made choices. That’s where your influence lives.",
+      "signal": "axis1:external"
+    },
+
+    {
+      "id": "BRIDGE_1_2",
+      "type": "bridge",
+      "text": "Now let’s shift from what happened — to what you gave today.",
+      "target": "A2_OPEN"
+    },
+
+    {
+      "id": "A2_OPEN",
+      "type": "question",
+      "text": "Which moment best reflects your day?",
+      "options": [
+        "I helped someone",
+        "I did extra work",
+        "I felt unrecognized",
+        "Others didn’t perform"
+      ]
+    },
+
+    {
+      "id": "A2_D1",
+      "type": "decision",
+      "rules": [
+        { "if": ["I helped someone", "I did extra work"], "goto": "A2_CONTRIB" },
+        { "if": ["I felt unrecognized", "Others didn’t perform"], "goto": "A2_ENTITLE" }
+      ]
+    },
+
+    {
+      "id": "A2_CONTRIB",
+      "type": "question",
+      "text": "Why did you choose to contribute?",
+      "options": [
+        "It felt right",
+        "Team needed it",
+        "I enjoy helping",
+        "I wanted impact"
+      ],
+      "signal": "axis2:contribution"
+    },
+
+    {
+      "id": "A2_ENTITLE",
+      "type": "question",
+      "text": "What bothered you the most?",
+      "options": [
+        "Lack of recognition",
+        "Others' effort",
+        "Unfair workload",
+        "No appreciation"
+      ],
+      "signal": "axis2:entitlement"
+    },
+
+    {
+      "id": "A2_REF",
+      "type": "reflection",
+      "text": "When you focus on contribution, your sense of control grows. Even small acts shift your day’s meaning."
+    },
+
+    {
+      "id": "BRIDGE_2_3",
+      "type": "bridge",
+      "text": "Now let’s zoom out — beyond you.",
+      "target": "A3_OPEN"
+    },
+
+    {
+      "id": "A3_OPEN",
+      "type": "question",
+      "text": "When you think of today’s biggest moment, who comes to mind?",
+      "options": [
+        "Just me",
+        "My team",
+        "A colleague",
+        "Customer/user"
+      ]
+    },
+
+    {
+      "id": "A3_D1",
+      "type": "decision",
+      "rules": [
+        { "if": ["Just me"], "goto": "A3_SELF" },
+        { "if": ["My team", "A colleague", "Customer/user"], "goto": "A3_OTHER" }
+      ]
+    },
+
+    {
+      "id": "A3_SELF",
+      "type": "question",
+      "text": "What mattered most to you?",
+      "options": [
+        "My performance",
+        "My stress",
+        "My goals",
+        "My outcome"
+      ],
+      "signal": "axis3:self"
+    },
+
+    {
+      "id": "A3_OTHER",
+      "type": "question",
+      "text": "How did others shape your day?",
+      "options": [
+        "We worked together",
+        "I supported someone",
+        "Someone struggled",
+        "Customer impact mattered"
+      ],
+      "signal": "axis3:other"
+    },
+
+    {
+      "id": "A3_REF",
+      "type": "reflection",
+      "text": "The more you include others in your perspective, the more meaningful your work becomes."
+    },
+
+    {
+      "id": "SUMMARY",
+      "type": "summary",
+      "text": "Today you showed {axis1} control, {axis2} mindset, and a {axis3} focus. Small shifts here can transform tomorrow."
+    },
+
+    {
+      "id": "END",
+      "type": "end",
+      "text": "Good work today. See you tomorrow."
+    }
+  ]
+}
