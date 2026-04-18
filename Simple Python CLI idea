@@ -1,0 +1,43 @@
+import json
+
+with open("reflection-tree.json") as f:
+    tree = json.load(f)["nodes"]
+
+node_map = {n["id"]: n for n in tree}
+state = {}
+
+current = "START"
+
+while True:
+    node = node_map[current]
+
+    print("\n" + node.get("text", ""))
+
+    if node["type"] == "question":
+        for i, opt in enumerate(node["options"]):
+            print(f"{i+1}. {opt}")
+        choice = int(input("Choose: ")) - 1
+        answer = node["options"][choice]
+        state[current] = answer
+
+        # move to decision
+        current = next(n["id"] for n in tree if n.get("parentId") == current)
+
+    elif node["type"] == "decision":
+        prev = state[list(state.keys())[-1]]
+        for rule in node["rules"]:
+            if prev in rule["if"]:
+                current = rule["goto"]
+                break
+
+    elif node["type"] in ["reflection", "bridge"]:
+        current = node.get("target") or next(
+            (n["id"] for n in tree if n.get("parentId") == current), None
+        )
+
+    elif node["type"] == "summary":
+        print("Reflection complete.")
+        current = "END"
+
+    elif node["type"] == "end":
+        break
